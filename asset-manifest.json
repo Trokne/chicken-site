@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/chicken-site/static/css/main.ac49484a.chunk.css",
+    "main.js": "/chicken-site/static/js/main.bc294a3c.chunk.js",
+    "main.js.map": "/chicken-site/static/js/main.bc294a3c.chunk.js.map",
+    "runtime-main.js": "/chicken-site/static/js/runtime-main.60a11865.js",
+    "runtime-main.js.map": "/chicken-site/static/js/runtime-main.60a11865.js.map",
+    "static/js/2.d7663317.chunk.js": "/chicken-site/static/js/2.d7663317.chunk.js",
+    "static/js/2.d7663317.chunk.js.map": "/chicken-site/static/js/2.d7663317.chunk.js.map",
+    "index.html": "/chicken-site/index.html",
+    "precache-manifest.5640b6d4418cb256894b8778d2001fdc.js": "/chicken-site/precache-manifest.5640b6d4418cb256894b8778d2001fdc.js",
+    "service-worker.js": "/chicken-site/service-worker.js",
+    "static/css/main.ac49484a.chunk.css.map": "/chicken-site/static/css/main.ac49484a.chunk.css.map",
+    "static/js/2.d7663317.chunk.js.LICENSE.txt": "/chicken-site/static/js/2.d7663317.chunk.js.LICENSE.txt",
+    "static/media/body.css": "/chicken-site/static/media/chickens.b870717b.jpg",
+    "static/media/telegram.png": "/chicken-site/static/media/telegram.473b9e3e.png",
+    "static/media/viber.png": "/chicken-site/static/media/viber.5b17f89a.png",
+    "static/media/whatsapp.png": "/chicken-site/static/media/whatsapp.7084bfaf.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.60a11865.js",
+    "static/js/2.d7663317.chunk.js",
+    "static/css/main.ac49484a.chunk.css",
+    "static/js/main.bc294a3c.chunk.js"
+  ]
+}
