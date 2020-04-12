@@ -1,0 +1,60 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.logo {
+  display: flex;
+  color: black;
+}
+
+.header-text {
+  font-size: 25px;
+  font-weight: bolder;
+  text-decoration: none;
+}
+
+.main:visited {
+  color: black !important;
+  text-decoration: none;
+}
+
+.main:hover {
+  color: black !important;
+  text-decoration: none;
+}
+
+.header-text.sub {
+  color: red;
+  text-decoration: none;
+}
+
+.header-description {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+  font-weight: lighter;
+  max-width: 130px;
+  font-size: 11px;
+}
+
+.phone {
+  color: red;
+}
+
+.phone-number {
+  font-weight: bolder;
+  font-size: 20px;
+  color: black;
+  text-decoration: none;
+}
+
+.phone-number:hover {
+  text-decoration: underline;
+}
+
+.phone-number:active {
+  color: black;
+}
