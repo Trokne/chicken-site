@@ -1,0 +1,593 @@
+$(document).ready(function () {
+
+    $('input[name="phone"]').each(function () {
+        $(this).mask("+7(999) 999-99-99");
+    });
+
+    $('.success-popup-close').on('click', function () {
+        $('#successPopup').modal('hide');
+    });
+
+    $('.product-info__order button').on('click', function () {
+        $('.darkwood').addClass('active');
+        $('#orderPopup').addClass('active animated fadeIn');
+        $('#orderPopup .order-count-item').each(function (i) {
+            if(i != 0) {
+                $(this).addClass('disabled-input-bg');
+                $(this).closest('.product-price-item').find('.container-radio').addClass('disable-input');
+            }
+            else {
+                $(this).closest('.product-price-item').find('input[type="radio"]').prop('checked', true);
+            }
+        });
+        getSum();
+    });
+
+    $('.product-price-item').each(function () {
+        $(this).on('click', function () {
+            $('.product-price-item').each(function () {
+                $(this).find('.order-count-item').addClass('disabled-input-bg');
+                $(this).find('.container-radio').addClass('disable-input');
+            });
+            $(this).find('.order-count-item').removeClass('disabled-input-bg');
+            $(this).find('.container-radio').removeClass('disable-input');
+            getSum();
+        });
+    });
+
+    $('.popup-close').on('click', function () {
+        $('.darkwood').removeClass('active ');
+        $('#orderPopup').removeClass('active animated fadeIn');
+    });
+
+    if($("#orderPopup").length > 0){
+        $(document).mouseup(function (e) {
+            var elem = $("#orderPopup.active");
+            if(e.target!= elem[0] && !elem.has(e.target).length) {
+                elem.removeClass('active animated fadeIn');
+                $('.darkwood').removeClass('active');
+            }
+        });
+    }
+
+    if($('#orderPopup').length > 0){
+        popupCenterring($('#orderPopup'));
+    }
+    if($('#priceRequest').length > 0){
+        popupCenterring($('#priceRequest'));
+    }
+    if($(".filter__wrap").length > 0 && $(window).width() < 768 ){
+        $(document).mouseup(function (e) {
+            var elem = $(".filter__wrap.mobile-filter");
+            if(e.target!= elem[0] && !elem.has(e.target).length) {
+                elem.removeClass('mobile-filter animated fadeIn');
+                $('.darkwood').removeClass('active');
+                $('body').removeClass('overflow');
+            }
+        });
+    }
+
+    $('.no-price-item').each(function () {
+        $(this).on('click', function () {
+
+            var isVillage = parseInt($(this).data('village'));
+            var grade = $(this).data('grade');
+            var productName = $(this).find('.catalog-item__title').text();
+            var productImage = $(this).find('.catalog-item__image img').attr('src');
+
+
+
+            $('#priceRequest .price-request-popup-image img').attr('src', productImage);
+            $('#priceRequest .price-request-product-title').text(productName);
+            if (isVillage == 1){
+                $('#priceRequest .price-request-product-sort').text('Сорт '+ grade + ", деревенское");
+            }
+            else {
+                $('#priceRequest .price-request-product-sort').text('Сорт '+ grade);
+            }
+
+            $('.darkwood').addClass('active');
+            $('#priceRequest').addClass('active animated fadeIn');
+
+
+            $('#priceRequest input[name="product-name"]').val(productName);
+            $('#priceRequest input[name="product-sort"]').val(grade);
+            $('#priceRequest input[name="product-is-village"]').val(isVillage);
+        });
+    });
+
+
+        $('.price-request-popup-close').on('click', function () {
+            $('.darkwood').removeClass('active');
+            $('#priceRequest').removeClass('active animated fadeIn');
+        });
+
+
+
+    if($('#priceRequest').length > 0 ){
+        $(document).mouseup(function (e) {
+            var elem = $("#priceRequest.active");
+            if(elem.hasClass('active') && e.target!= elem[0] && !elem.has(e.target).length) {
+                elem.removeClass('active animated fadeIn');
+                $('.darkwood').removeClass('active');
+            }
+        });
+    }
+
+
+    $('.order-count-item').on('change', function () {
+
+        var productCount = parseInt($(this).val());
+
+        if(productCount < 0  || typeof productCount != 'number' ){
+            productCount = 1;
+        }
+        var grade = $('.product-info__sort').text();
+
+        $('.order-count-item').each(function (i) {
+            $(this).addClass('disabled-input-bg');
+            $(this).closest('.product-price-item').find('.container-radio').addClass('disable-input');
+        });
+
+        $(this).removeClass('disabled-input-bg').val(productCount);
+        $(this).closest('.product-price-item').find('.container-radio').removeClass('disable-input');
+
+        $(this).closest('.product-price-item').find('.container-radio input').prop("checked", true);
+        var amountUnit = parseFloat($(this).closest('.product-price-item').find('.container-radio').data('price'));
+
+        var result = productCount * amountUnit;
+        $('#sum').html(result + "<span class='currency'>₽</span>");
+
+        $('#orderForm input[name="product"]').val($('.order-popup-product-title').text());
+        $('#orderForm input[name="sum"]').val(result);
+        $('#orderForm input[name="product-count"]').val(productCount);
+        $('#orderForm input[name="grade"]').val(grade);
+        $('#orderForm input[name="complect"]').val($(this).closest('.product-price-item').find('.container-radio').text());
+
+
+    });
+
+    if($('#filtersItem').length > 0){
+        // загружаем начальный блок
+        loadCatalog(0, 1);
+    }
+
+
+
+    // клик на кнопку "Еще"
+    $('#nextPageCatalog').on('click', function() {
+        var showPage = $(this).data('show');
+        var preloadPage = parseInt(showPage) + 1;
+        loadCatalog(showPage, preloadPage);
+    });
+
+    $('.sort-price').on('change', function() {
+        uri = setAttr('sortby', $(this).closest('.styled-select').data('sort'));
+        uri = setAttr('sortdir', $(this).val());
+        $('#filtersItem').html('');
+        loadCatalog(0, 1);
+
+        if($('.filter__wrap').hasClass('mobile-filter')){
+            $('.filter__wrap.mobile-filter').removeClass('mobile-filter animated fadeIn');
+            $('.darkwood').removeClass('active');
+            $('body').removeClass('overflow');
+        }
+        return false;
+    });
+
+
+    $('.filter-tv').on('change', function() {
+
+        var filter = $(this).closest('.styled-select').data('sort');
+
+        var value = '';
+        if (filter == 'filter-request') {
+
+            var categories = '';
+            $('.filter-tv').each(function() {
+                categories += $(this).val() + '|';
+            });
+            value = categories.substr(0, categories.length - 1);
+
+        }
+
+        uri = setAttr(filter, value);
+        $('#filtersItem').html('');
+        loadCatalog(0, 1);
+
+        if($('.filter__wrap').hasClass('mobile-filter')){
+            $('.filter__wrap.mobile-filter').removeClass('mobile-filter animated fadeIn');
+            $('.darkwood').removeClass('active');
+            $('body').removeClass('overflow');
+        }
+        return false;
+
+    });
+
+
+    $('.footer-filter li a').each(function () {
+        $(this).on('click', function () {
+            var filter = 'filter-request';
+
+            var value = '';
+            if (filter == 'filter-request') {
+                var categories = '';
+                categories += $(this).text() + '|';
+                categories += $('.styled-select.slate.sort select').val() + '|';
+                value = categories.substr(0, categories.length - 1);
+            }
+
+            uri = setAttr(filter, value);
+            $('#filtersItem').html('');
+            $("#filterCompany option[value='" + $(this).text() + "']").attr("selected","selected");
+            loadCatalog(0, 1);
+            $('html,body').animate({ scrollTop: $('#page1').offset().top - 100 }, 1600);
+
+            return false;
+        });
+    });
+
+
+
+
+    $('#documentsCarousel').owlCarousel({
+        items: 5,
+        margin: 40,
+        nav: false,
+        responsive:{
+            0:{
+                items:2,
+                nav:true
+            },
+            767:{
+                items:3,
+                nav:false
+            },
+            1000:{
+                items:5,
+                nav:true,
+                loop:false
+            }
+        }
+    });
+
+    $('#otherProductCarousel').owlCarousel({
+        items: 4,
+        margin: 10,
+        autoplay: true,
+        loop: true,
+        nav: true,
+        dots: false,
+        responsive:{
+            0:{
+                items:1,
+                nav:true
+            },
+            767:{
+                items:2,
+                nav:false
+            },
+            1000:{
+                items:4,
+                nav:true,
+                loop:false
+            }
+        }
+    });
+
+    if($('#map').length > 0){
+        ymaps.ready(init);
+        var myMap,
+            myPlacemark;
+
+        function init(){
+            myMap = new ymaps.Map("map", {
+                center: coords,
+                zoom: zoom
+            });
+
+            myPlacemark = new ymaps.Placemark(coords, {
+                hintContent: hintContent,
+                balloonContent: balloonContent
+            },{
+                // Опции.
+                // Необходимо указать данный тип макета.
+                iconLayout: 'default#image',
+                // Своё изображение иконки метки.
+                iconImageHref: '/assets/img/map/point.png',
+                // Размеры метки.
+                iconImageSize: [28, 42],
+                // Смещение левого верхнего угла иконки относительно
+                // её "ножки" (точки привязки).
+                iconImageOffset: [-14, -42]
+            });
+
+            myMap.geoObjects.add(myPlacemark);
+            myMap.behaviors.disable('scrollZoom');
+        }
+    }
+
+    centerringProductIcons();
+    showMobileFilter();
+    closeMobileFilter();
+});
+
+$(window).resize(function () {
+    centerringProductIcons();
+    if($('#orderPopup').length > 0){
+        popupCenterring($('#orderPopup'));
+    }
+
+    if($('#priceRequest').length > 0){
+        popupCenterring($('#priceRequest'));
+    }
+});
+
+$(window).on('scroll', function () {
+    fixingFilter();
+    fixingHeader();
+});
+
+if($('.filter__wrap').length > 0 ){
+    var filter = $('.filter__wrap');
+}
+
+
+function fixingFilter() {
+
+    if($('.filter__wrap').length < 1 || $(window).width() < 769){
+        return;
+    }
+    if ($(document).scrollTop() > 1500){
+       if(!filter.hasClass('fixed-filter')){
+           filter.addClass("fixed-filter");
+       }
+    }
+    else{
+        if(filter.hasClass('fixed-filter')){
+            filter.removeClass("fixed-filter");
+        }
+    }
+}
+
+function centerringProductIcons() {
+   $('.catalog-item__icons').each(function () {
+       var parentWidth =  $(this).closest('.catalog-item__image').children('img').width();
+       $(this).css('left',  (parentWidth - $(this).width()) / 2  + 15 + "px");
+   });
+}
+
+function fixingHeader(){
+
+    if ($(document).scrollTop() > 600){
+        if(!$('#header').hasClass('fixed-header')){
+            $('#header').addClass("fixed-header");
+        }
+    }
+    else{
+        if($('#header').hasClass('fixed-header')){
+            $('#header').removeClass("fixed-header");
+        }
+    }
+}
+
+function showMobileFilter() {
+    $('#showFilter').on('click', function () {
+        $('.filter__wrap').addClass('mobile-filter animated fadeIn');
+        $('.darkwood').addClass('active');
+        $('body').addClass('overflow');
+    });
+}
+
+
+function closeMobileFilter() {
+    $('.filter-colse').on('click', function () {
+        $('.filter__wrap').removeClass('mobile-filter animated fadeIn');
+        $('.darkwood').removeClass('active');
+        $('body').removeClass('overflow');
+    })
+}
+
+var uri = '/ajaxcatalog';
+
+function loadCatalog(showPage, preloadPage) {
+    // скрываем кнопку "Еще"
+    $('#nextPageCatalog').hide();
+
+    // показываем блок с ранее загруженным контентом и прокручиваем к нему
+    if (showPage != 0) {
+        $('#page' + showPage).show();
+        //$('html,body').animate({ scrollTop: $('#page' + showPage).offset().top - 100 }, 1600);
+    }
+
+    // создаем блок под новую загрузку
+    $('#filtersItem').append('<div id="page' + preloadPage + '"></div>');
+
+    uri = setAttr('page', preloadPage);
+    // загружаем контент следующей страницы, но не показываем его
+    $.ajax({
+        url: uri,
+        cache: false,
+        success: function(html_result) {
+            if (html_result != '') {
+
+                var is_items = html_result.search(/<div.*?class=".*?filter-item-product.*?"/i);
+                if (is_items != -1) {
+                    $('#nextPageCatalog').data('show', preloadPage);
+                    $('#nextPageCatalog').show();
+                    $('#page' + preloadPage).hide();
+                    $('#page' + preloadPage).html(html_result);
+                    if (preloadPage == 1) {
+                        loadCatalog(1, 2);
+                    }
+                }
+                centerringProductIcons();
+            }
+        }
+    });
+}
+
+
+
+// функция заменяет get-параметр в строке параметров uri (либо добавляет; либо удаляет, если передать val='')
+function setAttr(prmName,val) {
+    var res = '';
+    var d = uri.split("?");
+    var base = d[0];
+    var query = d[1];
+    if(query) {
+        var params = query.split("&");
+        for(var i = 0; i < params.length; i++) {
+            var keyval = params[i].split("=");
+            if(keyval[0] != prmName) {
+                res += params[i] + '&';
+            }
+        }
+    }
+    if (val != '') res += prmName + '=' + val;
+    return base + '?' + res;
+} var uri = '/ajaxcatalog/';
+
+
+var timeout_modal_ok = false;
+var timeout_modal_ok_hide = false;
+
+function modal_ok_show() {
+    clearTimeout(timeout_modal_ok);
+    clearTimeout(timeout_modal_ok_hide);
+    timeout_modal_ok = setTimeout(function() {
+        $('#successPopup').modal('show');
+        clearTimeout(timeout_modal_ok_hide);
+        timeout_modal_ok_hide = setTimeout(function() {
+            $('#successPopup').modal('hide');
+        }, 10000);
+    }, 500);
+}
+
+
+"use strict"; // Start of use strict
+
+// jQuery for page scrolling feature - requires jQuery Easing plugin
+$('.scroll-to-catalog').each(function () {
+    $(this).bind('click', function(event) {
+        var $anchor = $(this);
+        $('html, body').stop().animate({
+            scrollTop: ($($anchor.attr('href')).offset().top - 50)
+        }, 1250, 'easeInOutExpo');
+        event.preventDefault();
+    });
+});
+
+
+function popupCenterring(elem) {
+    elem.css('left', ($(window).width() - elem.outerWidth()) / 2 + 'px' );
+}
+
+
+function getSum() {
+    var currentInput = $('.product-price-item input[type="radio"]:checked').closest('.product-price-item').find('.order-count-item');
+    var productCount = parseInt(currentInput.val());
+
+    var grade = $('.product-info__sort').text();
+
+    $('.order-count-item').each(function () {
+        $(this).addClass('disabled-input-bg');
+        $(this).closest('.product-price-item').find('.container-radio').addClass('disable-input');
+    });
+
+    currentInput.removeClass('disabled-input-bg').val(productCount);
+    currentInput.closest('.product-price-item').find('.container-radio').removeClass('disable-input');
+
+    currentInput.closest('.product-price-item').find('.container-radio input').prop("checked", true);
+    var amountUnit = parseFloat(currentInput.closest('.product-price-item').find('.container-radio').data('price'));
+
+    var result = productCount * amountUnit;
+    $('#sum').html(result + "<span class='currency'>₽</span>");
+
+    $('#orderForm input[name="product"]').val($('.order-popup-product-title').text());
+    $('#orderForm input[name="sum"]').val(result);
+    $('#orderForm input[name="product-count"]').val(productCount);
+    $('#orderForm input[name="grade"]').val(grade);
+    $('#orderForm input[name="complect"]').val(currentInput.closest('.product-price-item').find('.container-radio').text());
+}
+
+
+function analytictsTarget() {
+
+    $('.price-list a').on('click', function () {
+        //тут цель скачать прайслист
+        yaCounter47107341.reachGoal('downloadPrice');
+        ga('send', 'event', 'Button', 'downloadPrice');
+    });
+
+    $('.price-request-btn').on('click', function () {
+        var name = $('.price-request-form input[name="name"]').val();
+        var phone = $('.price-request-form input[name="phone"]').val();
+        if(name.length != 0 && phone.length != 0){
+            //запрос цены на Кукареку
+            yaCounter47107341.reachGoal('requestPriceForProduct');
+            ga('send', 'event', 'Button', 'requestPriceForProduct');
+        }
+    });
+
+    $('.product-info__order').on('click', function () {
+        //Тут цель перешел в оформление заказа
+        yaCounter47107341.reachGoal('ordering');
+        ga('send', 'event', 'Button', 'ordering');
+    });
+
+    $('.product-info-callback-form__wrap button').on('click', function () {
+        var phone = $('.product-info-callback-form__wrap input[name="phone"]');
+        if(phone.length > 0){
+            //Тут цель запрос обратного звонка
+            yaCounter47107341.reachGoal('callback');
+            ga('send', 'event', 'Button', 'callback');
+        }
+    });
+
+    $('#orderForm button').on('click', function () {
+        var name = $('#orderForm input[name="name"]').val();
+        var phone = $('#orderForm input[name="phone"]').val();
+        if(name.length != 0 && phone.length != 0){
+            //тут цель отправка заказа
+            yaCounter47107341.reachGoal('newOrder');
+            ga('send', 'event', 'Button', 'newOrder');
+        }
+
+    });
+
+    $('.order-support-form').on('click', function () {
+        var phone = $('.order-support-form input[name="phone"]').val();
+        if(phone.length > 0){
+            //Тут цель запрос обратного звонка
+            yaCounter47107341.reachGoal('callback');
+            ga('send', 'event', 'Button', 'callback');
+        }
+    });
+
+    $('.support-callback-form__wrap button').on('click', function () {
+        var phone = $('.support-callback-form__wrap input[name="phone"]').val();
+        if(phone.length > 0){
+            //Тут цель запрос обратного звонка
+            yaCounter47107341.reachGoal('callback');
+            ga('send', 'event', 'Button', 'callback');
+        }
+    });
+
+
+    $('.map-callback-form__wrap button').on('click', function () {
+        var phone = $('.map-callback-form__wrap input[name="phone"]').val();
+        if(phone.length > 0){
+            //Тут цель запрос обратного звонка
+            yaCounter47107341.reachGoal('callback');
+            ga('send', 'event', 'Button', 'callback');
+        }
+    });
+}
+
+
+
+
+
+
+

@@ -14,7 +14,7 @@ class Body extends React.Component {
         <div className="bg-text">
           <div className="bg-text-container">
             <div className="description">
-              Продажа куриц с доставкой по Перми и Пермскому краю <br />{" "}
+              Продажа куриц с доставкой по Перми и Пермскому краю <br />
               Работаем на заказ
             </div>
             <div className="button-container">

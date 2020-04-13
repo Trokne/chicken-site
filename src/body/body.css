@@ -49,16 +49,17 @@
 
 .bg-text .description {
   color: white;
-  font-weight: lighter;
-  font-size: 25px;
+  font-weight: 300;
+  font-size: 20px;
   padding: 0 25px;
+  text-align: center;
 }
 
 .phone-number-button {
   height: 100%;
   width: 35%;
   min-width: 300px;
-  font-weight: lighter;
+  font-weight: 400;
   font-size: 20px;
   color: white;
   background-color: red;
