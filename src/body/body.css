@@ -35,11 +35,13 @@
   color: white;
   font-weight: lighter;
   font-size: 25px;
+  padding: 0 25px;
 }
 
 .phone-number-button {
   height: 100%;
   width: 35%;
+  min-width: 300px;
   font-weight: lighter;
   font-size: 20px;
   color: white;

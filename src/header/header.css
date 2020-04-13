@@ -1,4 +1,5 @@
 .header {
+  padding: 20px 40px 0px 40px;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -40,6 +41,23 @@
   font-size: 11px;
 }
 
+@media screen and (max-width: 500px) {
+  .header-description,
+  .phone {
+    visibility: hidden;
+    display: none;
+  }
+
+  .header {
+    padding: 0;
+  }
+
+  .logo {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 .phone {
   color: red;
 }
@@ -49,6 +67,7 @@
   font-size: 20px;
   color: black;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .phone-number:hover {
