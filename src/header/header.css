@@ -16,12 +16,10 @@
   text-decoration: none;
 }
 
-.main:visited {
-  color: black !important;
-  text-decoration: none;
-}
-
-.main:hover {
+.main,
+.main:visited,
+.main:hover,
+.main:active {
   color: black !important;
   text-decoration: none;
 }
@@ -74,6 +72,7 @@
   text-decoration: underline;
 }
 
-.phone-number:active {
+.phone-number:active,
+.phone-number:hover {
   color: black;
 }
