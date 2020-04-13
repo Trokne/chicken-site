@@ -1,11 +1,14 @@
 .icons-container {
   width: 100%;
+  max-width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .icon-container {
+  max-width: 200px;
   font-size: 18px;
   padding: 20px;
   display: flex;
