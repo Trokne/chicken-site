@@ -1,12 +1,19 @@
 .buy-body {
   width: 100%;
   height: 500px;
-  margin-top: 50px;
+  margin-top: 20px;
   position: relative;
 }
 
+.bg-image-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 .bg-image {
-  border: black;
+  transform: scale(1.03);
+  border: 4px double black;
   /* The image used */
   /* Add the blur effect */
   filter: blur(5px);
@@ -28,6 +35,7 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
+  text-align: center;
 }
 
 .bg-text {

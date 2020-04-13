@@ -8,7 +8,9 @@ class Body extends React.Component {
   render() {
     return (
       <div className="buy-body">
-        <div className="bg-image" />
+        <div className="bg-image-container">
+          <div className="bg-image" />
+        </div>
         <div className="bg-text">
           <div className="bg-text-container">
             <div className="description">
