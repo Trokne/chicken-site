@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/chicken-site/static/css/main.8d07a110.chunk.css",
+    "main.css": "/chicken-site/static/css/main.cd922a18.chunk.css",
     "main.js": "/chicken-site/static/js/main.86c17fbb.chunk.js",
     "main.js.map": "/chicken-site/static/js/main.86c17fbb.chunk.js.map",
     "runtime-main.js": "/chicken-site/static/js/runtime-main.60a11865.js",
@@ -8,9 +8,9 @@
     "static/js/2.51464055.chunk.js": "/chicken-site/static/js/2.51464055.chunk.js",
     "static/js/2.51464055.chunk.js.map": "/chicken-site/static/js/2.51464055.chunk.js.map",
     "index.html": "/chicken-site/index.html",
-    "precache-manifest.f9fd59e84a68ea1900d643649ecf12b5.js": "/chicken-site/precache-manifest.f9fd59e84a68ea1900d643649ecf12b5.js",
+    "precache-manifest.0b9aec1fdcbc8ff3043dfe8e982d7e13.js": "/chicken-site/precache-manifest.0b9aec1fdcbc8ff3043dfe8e982d7e13.js",
     "service-worker.js": "/chicken-site/service-worker.js",
-    "static/css/main.8d07a110.chunk.css.map": "/chicken-site/static/css/main.8d07a110.chunk.css.map",
+    "static/css/main.cd922a18.chunk.css.map": "/chicken-site/static/css/main.cd922a18.chunk.css.map",
     "static/js/2.51464055.chunk.js.LICENSE.txt": "/chicken-site/static/js/2.51464055.chunk.js.LICENSE.txt",
     "static/media/body.css": "/chicken-site/static/media/chickens.6b63629c.jpg",
     "static/media/icon1.svg": "/chicken-site/static/media/icon1.b5333221.svg",
@@ -24,7 +24,7 @@
   "entrypoints": [
     "static/js/runtime-main.60a11865.js",
     "static/js/2.51464055.chunk.js",
-    "static/css/main.8d07a110.chunk.css",
+    "static/css/main.cd922a18.chunk.css",
     "static/js/main.86c17fbb.chunk.js"
   ]
 }
