@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b938e996e29ddd90afb8542e258e7ec5",
+    "revision": "47969394a50d5f31f18dc781bb41e3ae",
     "url": "/chicken-site/index.html"
   },
   {
-    "revision": "5ec9075ba823262c5bbb",
-    "url": "/chicken-site/static/css/main.ef628965.chunk.css"
+    "revision": "c877242d89d08c1da706",
+    "url": "/chicken-site/static/css/main.ec017b33.chunk.css"
   },
   {
     "revision": "d7779597e62aadeeb470",
@@ -16,16 +16,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/chicken-site/static/js/2.d7663317.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "5ec9075ba823262c5bbb",
-    "url": "/chicken-site/static/js/main.5c7d8f3f.chunk.js"
+    "revision": "c877242d89d08c1da706",
+    "url": "/chicken-site/static/js/main.70e7da84.chunk.js"
   },
   {
     "revision": "a38b87639b9b04ce9ba7",
     "url": "/chicken-site/static/js/runtime-main.60a11865.js"
   },
   {
-    "revision": "b870717bbcdc615c4eda4031b04122d6",
-    "url": "/chicken-site/static/media/chickens.b870717b.jpg"
+    "revision": "6b63629c707589005a6c935091fe8f9f",
+    "url": "/chicken-site/static/media/chickens.6b63629c.jpg"
   },
   {
     "revision": "473b9e3ebdd7e4a177c1d6144b90b4c6",
