@@ -20,7 +20,7 @@ class Header extends React.Component {
         </div>
         <div className="phone">
           <a href="tel:79024785293" className="phone-number">
-            +7 902 478 52 93
+            🕻 +7 902 478 52 93
           </a>
         </div>
       </div>
